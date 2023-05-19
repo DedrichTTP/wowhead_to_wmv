@@ -122,14 +122,12 @@ def get_json_from_url():
 
     with tempfile.TemporaryDirectory() as save_dir:
         if("npc" in url):
-            print("NPC")
             try:
                 subprocess.run(["node", "wow_pipeline\crowd\wowheadGenerate\wowhead_get_json_npc.js", url, save_dir], check=True, capture_output=True)
             except subprocess.CalledProcessError as e:
                 print('Output:', e.output)
                 print('Error:', e.stderr)
         else:
-            print("DRESSING ROOM")
             try:
                 subprocess.run(["node", "wow_pipeline\crowd\wowheadGenerate\wowhead_get_json_dressingRoom.js", url, save_dir], check=True, capture_output=True)
             except subprocess.CalledProcessError as e:
@@ -162,14 +160,13 @@ def format_json(jsonData, url):
     else:
         npc = False
 
-    print(f'JSON length: {len(jsonData)}')
     # Name
-    if(npc):
+    if(npc or "outfit" in url):
         character_name = url.rsplit("/",1)[1].replace("-", " ")
         name_parts = character_name.split()
         character_name = ' '.join(part.capitalize() for part in name_parts)
     else:
-        character_name = "Character"
+        character_name = input("Please enter character name: ")
 
     # Race / sex information
     if(npc):
