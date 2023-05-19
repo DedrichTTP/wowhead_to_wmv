@@ -58,7 +58,8 @@ Installation:
 
 
 
+
 PLEASE NOTE!!
 THIS HAS ONLY BEEN TESTED WITH THE FOLLOWING:
-WoW Model Viewer v0.10.0.801
-wow 9.2.0.42423
+1) WoW Model Viewer v0.10.0.801
+2) wow 9.2.0.42423
