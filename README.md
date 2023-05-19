@@ -8,6 +8,19 @@
 ![NPC](./NPC.png)
 
 
+# Usage
+
+Please ensure you have all dependencies before running!
+
+1. Navigate to the folder in a terminal window.
+2. run `generate_wmv_character.py`
+3. It will ask you for a wowhead URL, here are some examples of acceptable ones:
+`https://www.wowhead.com/outfit=41302/kharazim`
+`https://www.wowhead.com/npc=1333/gerik-koen`
+`https://www.wowhead.com/dressing-room#fz80c0zb89c8a8I8s8z8q848b8zR8fh8M2Q8d8zh8fu8M218sc8zya8fG8M3k8k58zdN8zYw8dAG877GqHA87cRxR808cTo808OE87VMTt808mlt808cnb808MTe87q`
+4. If you use a dressing-room link it will ask you for a character name.
+5. If all goes well, it will generate a .CHR file to import into WMV and copy the location of it to the clipboard!
+
 # Dependencies Installation Guide
 
 The following is a list of Python and Node.js dependencies required.
@@ -58,8 +71,8 @@ Installation:
 
 
 
+## PLEASE NOTE!!
 
-PLEASE NOTE!!
 THIS HAS ONLY BEEN TESTED WITH THE FOLLOWING:
 1) WoW Model Viewer v0.10.0.801
 2) wow 9.2.0.42423

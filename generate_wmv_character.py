@@ -110,6 +110,10 @@ wowhead_wmw_slot_convert_dict = {
     '17': {
             'name': 'Main-Hand',
             'wmv': '9'
+          },
+    '27': {
+            'name': 'Quiver',
+            'wmv': '13'
           }
 }
 
@@ -119,17 +123,20 @@ def get_json_from_url():
 
     # Prompt the user for the URL
     url = input("Please enter a URL: ")
+    dir_path = os.path.dirname(os.path.realpath(__file__))
 
     with tempfile.TemporaryDirectory() as save_dir:
         if("npc" in url):
             try:
-                subprocess.run(["node", "wow_pipeline\crowd\wowheadGenerate\wowhead_get_json_npc.js", url, save_dir], check=True, capture_output=True)
+                script_path = os.path.join(dir_path, "wowhead_get_json_npc.js")
+                subprocess.run(["node", script_path, url, save_dir], check=True, capture_output=True)
             except subprocess.CalledProcessError as e:
                 print('Output:', e.output)
                 print('Error:', e.stderr)
         else:
             try:
-                subprocess.run(["node", "wow_pipeline\crowd\wowheadGenerate\wowhead_get_json_dressingRoom.js", url, save_dir], check=True, capture_output=True)
+                script_path = os.path.join(dir_path, "wowhead_get_json_dressingRoom.js")
+                subprocess.run(["node", script_path, url, save_dir], check=True, capture_output=True)
             except subprocess.CalledProcessError as e:
                 print('Output:', e.output.decode('utf-8'))
                 print('Error:', e.stderr.decode('utf-8'))
