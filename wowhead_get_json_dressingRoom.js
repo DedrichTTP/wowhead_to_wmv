@@ -20,6 +20,10 @@ const fetchUrl = async(urlInput, saveDir) => {
         })(console.log);
     });
 
+    if (urlInput.includes("outfit")){
+      urlInput += "#modelviewer"
+    }
+    console.log(`Going to page: ${urlInput}`)
     await page.goto(urlInput);
 
     // Extract the last arguments passed to `console.log`
@@ -27,7 +31,7 @@ const fetchUrl = async(urlInput, saveDir) => {
     const viewerOptions = logArgs[1]; // The object `t` is the second argument
 
     // Save the viewerOptions object as a JSON file
-  // Save the JSON data to the specified directory
+    // Save the JSON data to the specified directory
     const savePath = `${saveDir}/data.json`;
     fs.writeFileSync(savePath, JSON.stringify(viewerOptions, null, 2));
 

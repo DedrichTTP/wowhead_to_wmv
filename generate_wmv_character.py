@@ -104,8 +104,12 @@ wowhead_wmw_slot_convert_dict = {
             'wmv': '9'
           },
     '22': {
-            'name': 'Main-Hand',
+            'name': 'Off-Hand',
             'wmv': '10'
+          },
+    '17': {
+            'name': 'Main-Hand',
+            'wmv': '9'
           }
 }
 
@@ -120,14 +124,14 @@ def get_json_from_url():
         if("npc" in url):
             print("NPC")
             try:
-                subprocess.run(["node", "wow_pipeline\crowd\wowheadGen\wowhead_get_json_npc.js", url, save_dir], check=True, capture_output=True)
+                subprocess.run(["node", "wow_pipeline\crowd\wowheadGenerate\wowhead_get_json_npc.js", url, save_dir], check=True, capture_output=True)
             except subprocess.CalledProcessError as e:
                 print('Output:', e.output)
                 print('Error:', e.stderr)
         else:
             print("DRESSING ROOM")
             try:
-                subprocess.run(["node", "wow_pipeline\crowd\wowheadGen\wowhead_get_json_dressingRoom.js", url, save_dir], check=True, capture_output=True)
+                subprocess.run(["node", "wow_pipeline\crowd\wowheadGenerate\wowhead_get_json_dressingRoom.js", url, save_dir], check=True, capture_output=True)
             except subprocess.CalledProcessError as e:
                 print('Output:', e.output.decode('utf-8'))
                 print('Error:', e.stderr.decode('utf-8'))
