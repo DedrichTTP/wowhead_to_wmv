@@ -2,6 +2,11 @@
  A script to convert NPCs and Dressingroom URLs to wow model viewer .CHR files!
 
 
+![Dressing Room](./DressingRoom.png)
+![NPC](./NPC.png)
+
+
+
 PLEASE NOTE!!
 THIS HAS ONLY BEEN TESTED WITH THE FOLLOWING:
 WoW Model Viewer v0.10.0.801
