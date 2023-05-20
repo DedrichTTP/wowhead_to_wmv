@@ -288,10 +288,30 @@ def format_json(jsonData, url):
 
     create_url_shortcut(url, character_name, jsonPath.replace(".json",".url") )
 
+    def create_bat_file(save_path):
+        bat_script = """
+        @echo off
+        for /R %%i in (*.chr) do (
+            echo %%~fi | clip
+            goto :eof
+        )
+        """
+        with open(save_path, 'w') as bat_file:
+            bat_file.write(bat_script)
 
     print(character_name)
-    print(character_race + " " + character_gender)  
+    print(character_race + " " + character_gender)
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    script_path = os.path.join(dir_path, "generate_screenshot.js")
+    screenshot_path = folderPath + "\\" + character_name + ".jpg"
+    print(screenshot_path)
+    print("Generating screenshot...")
+    try:
+        subprocess.run(["node", script_path, url, screenshot_path], check=True, capture_output=True)
+    except subprocess.CalledProcessError as e:
+        print(e.stderr)
 
+    create_bat_file(folderPath + "\\" + "copy CHR to clipboard.bat")
     return character_dict
 
 # Generates a CHR file to be imported by WMV based on the JSON file
