@@ -273,6 +273,12 @@ def format_json(jsonData, url):
         },   
         "rawData" : jsonData
     }
+
+    if(npc):
+        character_dict["characterInfo"]["type"] = "npc"
+    else:
+        character_dict["characterInfo"]["type"] = "custom"
+
     
     # Save the character_dict
     with open(jsonPath, 'w') as f:
@@ -301,16 +307,20 @@ def format_json(jsonData, url):
 
     print(character_name)
     print(character_race + " " + character_gender)
+
+    # Generate screenshot
     dir_path = os.path.dirname(os.path.realpath(__file__))
     script_path = os.path.join(dir_path, "generate_screenshot.js")
     screenshot_path = folderPath + "\\" + character_name + ".jpg"
-    print(screenshot_path)
     print("Generating screenshot...")
+    if(npc): 
+        url += "#modelviewer"
     try:
-        subprocess.run(["node", script_path, url, screenshot_path], check=True, capture_output=True)
+        subprocess.run(["node", script_path, url, screenshot_path, character_dict["characterInfo"]["type"]], check=True, capture_output=True)
     except subprocess.CalledProcessError as e:
         print(e.stderr)
 
+    # Create a bat file for copying the .chr file
     create_bat_file(folderPath + "\\" + "copy CHR to clipboard.bat")
     return character_dict
 
