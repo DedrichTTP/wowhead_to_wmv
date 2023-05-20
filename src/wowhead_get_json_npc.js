@@ -4,6 +4,7 @@ const axios = require('axios');
 
 // Get the wowhead JSON file for the given URL
 const fetchUrl = async (urlInput, saveDir) => {
+  console.log("Loading URL...")
   const browser = await puppeteer.launch({headless:"new"});
   const page = await browser.newPage();
 
@@ -11,6 +12,7 @@ const fetchUrl = async (urlInput, saveDir) => {
 
   // Begin intercepting requests before navigating to the URL
   await page.setRequestInterception(true);
+  console.log("Waiting for model information... (Max 30s)")
   page.on('request', interceptedRequest => {
     if (interceptedUrl) {
       interceptedRequest.continue();

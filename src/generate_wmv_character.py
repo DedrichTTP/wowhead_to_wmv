@@ -164,6 +164,10 @@ wowhead_wmw_slot_convert_dict = {
             'name': 'Main-Hand',
             'wmv': '9'
           },
+    '15': {
+            'name': 'Main-Hand',
+            'wmv': '9'
+          },
     '22': {
             'name': 'Off-Hand',
             'wmv': '10'
@@ -173,6 +177,29 @@ wowhead_wmw_slot_convert_dict = {
             'wmv': '13'
           }
 }
+
+# Run node.js with output
+def run_script_and_print_output(script_path, url, save_dir):
+    # Start the process
+    process = subprocess.Popen(["node", script_path, url, save_dir], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+
+    # Use a loop to read the output line by line
+    while True:
+        output = process.stdout.readline()
+
+        # Break the loop if the process is done
+        if process.poll() is not None:
+            break
+
+        # Print the output
+        if output:
+            print(output.strip())
+
+    # Print any output that's left
+    remainder = process.communicate()[0]
+    if remainder:
+        print(remainder.strip())
+
 
 # Save JSON file from wowhead link
 def get_json_from_url():
@@ -191,18 +218,21 @@ def get_json_from_url():
         if("npc" in url):
             try:
                 script_path = os.path.join(dir_path, "wowhead_get_json_npc.js")
-                subprocess.run(["node", script_path, url, save_dir], check=True, capture_output=True)
+                result = run_script_and_print_output(script_path, url, save_dir)
             except subprocess.CalledProcessError as e:
                 print('Output:', e.output)
                 print('Error:', e.stderr)
+                print(result.stdout)
         else:
             try:
                 script_path = os.path.join(dir_path, "wowhead_get_json_dressingRoom.js")
-                subprocess.run(["node", script_path, url, save_dir], check=True, capture_output=True)
+                result = run_script_and_print_output(script_path, url, save_dir)
             except subprocess.CalledProcessError as e:
                 print('Output:', e.output.decode('utf-8'))
                 print('Error:', e.stderr.decode('utf-8'))
 
+        if(result is None):
+            quit()
 
         # define the name of the file to check for
         filename = "data.json"
