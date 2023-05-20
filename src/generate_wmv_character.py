@@ -54,6 +54,58 @@ gender_dict = {
     1: "Female"
 }
 
+noHdModels = [
+    "brokenfemale",
+    "brokenmale",
+    "companiondrake",
+    "companionprotodragon",
+    "companionpterrodax",
+    "companionserpent",
+    "companionwyvern",
+    "darkirondwarffemale",
+    "darkirondwarfmale",
+    "dracthyrdragon",
+    "dracthyrfemale",
+    "dracthyrmale",
+    "felorcfemale",
+    "felorcmale",
+    "felorcmaleaxe",
+    "felorcmalesword",
+    "foresttrollmale",
+    "goblinfemale",
+    "goblinmale",
+    "highmountaintaurenfemale",
+    "highmountaintaurenmale",
+    "icetrollmale",
+    "kultiranfemale",
+    "kultiranmale",
+    "lightforgeddraeneifemale",
+    "lightforgeddraeneimale",
+    "mechagnomefemale",
+    "mechagnomemale",
+    "naga_female",
+    "naga_male",
+    "nightbornefemale",
+    "nightbornemale",
+    "northrendskeletonmale",
+    "orcmaleupright",
+    "pandarenfemale",
+    "pandarenmale",
+    "skeletonfemale",
+    "skeletonmale",
+    "taunkamale",
+    "thinhumanmale",
+    "voidelffemale",
+    "voidelfmale",
+    "vrykulmale",
+    "vulperafemale",
+    "vulperamale",
+    "worgenfemale",
+    "worgenmale",
+    "zandalaritrollfemale",
+    "zandalaritrollmale"
+]
+
 # On the left is what wowhead gives, on the right is the WMV correct one
 wowhead_wmw_slot_convert_dict = {
     '1': {
@@ -108,20 +160,19 @@ wowhead_wmw_slot_convert_dict = {
             'name': 'Main-Hand',
             'wmv': '9'
           },
-    '22': {
-            'name': 'Off-Hand',
-            'wmv': '10'
-          },
     '17': {
             'name': 'Main-Hand',
             'wmv': '9'
+          },
+    '22': {
+            'name': 'Off-Hand',
+            'wmv': '10'
           },
     '27': {
             'name': 'Quiver',
             'wmv': '13'
           }
 }
-
 
 # Save JSON file from wowhead link
 def get_json_from_url():
@@ -163,8 +214,6 @@ def get_json_from_url():
         else:
             print(f"The file {filename} does not exist in the directory {save_dir}.")
             quit()
-
-
 
 # Format the JSON file into a common structure
 def format_json(jsonData, url):
@@ -245,7 +294,6 @@ def format_json(jsonData, url):
 
     return character_dict
 
-
 # Generates a CHR file to be imported by WMV based on the JSON file
 def generate_chr_xml(character_dict):
 
@@ -255,11 +303,12 @@ def generate_chr_xml(character_dict):
     model = ET.SubElement(root, "model")
     file = ET.SubElement(model, "file")
     
-    
-    #Test
-    
-    
-    modelName = str(character_dict["characterInfo"]["race"]).lower() + str(character_dict["characterInfo"]["gender"]).lower() + "_hd.m2"
+    modelName = str(character_dict["characterInfo"]["race"]).lower() + str(character_dict["characterInfo"]["gender"]).lower()
+    if modelName not in noHdModels:
+        modelName += "_hd.m2"
+    else:
+        modelName += ".m2"
+
     file.set("name", "character/" + character_dict["characterInfo"]["race"] + "/" + str(character_dict["characterInfo"]["gender"]).lower() + "/" + modelName)
 
     char_details = ET.SubElement(model, "CharDetails")
@@ -291,7 +340,7 @@ def generate_chr_xml(character_dict):
             ET.SubElement(item, "displayId").set("value", str(Equipment[slot]))
             ET.SubElement(item, "level").set("value", "0")
         else:
-            print(f"Error: Slot {slot} not found in lookup dict! - {Equipment[slot]}")
+            print(f"Error: Slot {slot} not found in lookup table! - {Equipment[slot]}")
 
 
     xml_string = ET.tostring(root, "utf-8")
@@ -305,7 +354,6 @@ def generate_chr_xml(character_dict):
 
     pyperclip.copy(chrFile.replace("/","\\"))
     print(".chr file copied to clipboard, please import into WMV!")
-
 
 
 ###########EXECUTE############
