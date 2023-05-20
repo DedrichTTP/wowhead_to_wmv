@@ -202,7 +202,7 @@ def format_json(jsonData, url):
         character_equipment = {str(item[0]): item[1] for item in jsonData["items"]}
 
     # Set the export path        
-    exportRoot = settings.saveDir
+    exportRoot = settings.saveDir.replace("\\","/")
     folderPath = os.path.join(exportRoot, character_race + character_gender, character_name)
 
     # Create folder if it doesn't exist already
