@@ -5,6 +5,7 @@ import json
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom
 import pyperclip
+import settings
 
 race_dict = {
 1: "human",
@@ -199,12 +200,9 @@ def format_json(jsonData, url):
         character_equipment = jsonData["Equipment"]
     else:
         character_equipment = {str(item[0]): item[1] for item in jsonData["items"]}
-        
-    # Generate folder path
-    with open('settings.json', 'r') as f:
-        settings = json.load(f)
 
-    exportRoot = settings['saveDir'].replace('\\','/')
+    # Set the export path        
+    exportRoot = settings.saveDir
     folderPath = os.path.join(exportRoot, character_race + character_gender, character_name)
 
     # Create folder if it doesn't exist already
