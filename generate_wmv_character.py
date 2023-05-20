@@ -131,6 +131,7 @@ def get_json_from_url():
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
     with tempfile.TemporaryDirectory() as save_dir:
+        print("Gathering data...")
         if("npc" in url):
             try:
                 script_path = os.path.join(dir_path, "wowhead_get_json_npc.js")
