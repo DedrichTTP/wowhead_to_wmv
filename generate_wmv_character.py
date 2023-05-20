@@ -6,11 +6,6 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom
 import pyperclip
 
-# Set the base folder for all exports
-##########################################################################################
-exportRoot = "Z:/True Potential Dropbox/Share/Houdini_Projects/_WOWLIB/_WMV_Characters/"
-##########################################################################################
-
 race_dict = {
 1: "human",
 2: "orc",
@@ -206,6 +201,10 @@ def format_json(jsonData, url):
         character_equipment = {str(item[0]): item[1] for item in jsonData["items"]}
         
     # Generate folder path
+    with open('settings.json', 'r') as f:
+        settings = json.load(f)
+
+    exportRoot = settings['saveDir']
     folderPath = os.path.join(exportRoot, character_race + character_gender, character_name)
 
     # Create folder if it doesn't exist already

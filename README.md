@@ -10,7 +10,7 @@
 
 Please ensure you have all dependencies before running!
 
-## Ensure that you change the `exportRoot` in `generate_wmv_character.py` this sets the rootpath for exports!
+## Ensure that you change the `saveDir` in `settings.json` this sets the rootpath for exports!
 
 1. Navigate to the folder in a terminal window.
 2. run `generate_wmv_character.py`
