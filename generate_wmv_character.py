@@ -204,7 +204,7 @@ def format_json(jsonData, url):
     with open('settings.json', 'r') as f:
         settings = json.load(f)
 
-    exportRoot = settings['saveDir']
+    exportRoot = settings['saveDir'].replace('\\','/')
     folderPath = os.path.join(exportRoot, character_race + character_gender, character_name)
 
     # Create folder if it doesn't exist already
