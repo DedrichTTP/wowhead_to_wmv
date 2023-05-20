@@ -179,6 +179,11 @@ def get_json_from_url():
 
     # Prompt the user for the URL
     url = input("Please enter a URL: ")
+
+    #Strip any other stuff from NPC views
+    if ("npc" in url): 
+        url = url.split("#",1)[0] + "#modelviewer"
+
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
     with tempfile.TemporaryDirectory() as save_dir:
@@ -224,7 +229,7 @@ def format_json(jsonData, url):
 
     # Name
     if(npc or "outfit" in url):
-        character_name = url.rsplit("/",1)[1].replace("-", " ")
+        character_name = url.rsplit("/",1)[1].replace("-", " ").replace("#modelviewer","")
         name_parts = character_name.split()
         character_name = ' '.join(part.capitalize() for part in name_parts)
     else:

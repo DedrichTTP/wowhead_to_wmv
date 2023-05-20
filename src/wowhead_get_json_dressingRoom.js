@@ -20,9 +20,6 @@ const fetchUrl = async(urlInput, saveDir) => {
         })(console.log);
     });
 
-    if (urlInput.includes("outfit")){
-      urlInput += "#modelviewer"
-    }
     console.log(`Going to page: ${urlInput}`)
     await page.goto(urlInput);
 

@@ -27,8 +27,7 @@ const fetchUrl = async (urlInput, saveDir) => {
     interceptedRequest.continue();
   });
 
-  const newUrl = urlInput + '#modelviewer';
-  await page.goto(newUrl);
+  await page.goto(urlInput);
   await browser.close();
 
   if (!interceptedUrl) {
