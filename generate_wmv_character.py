@@ -215,7 +215,7 @@ def format_json(jsonData, url):
     # Save JSON file
     jsonPath = folderPath + "/" + character_name + ".json"
     
-    # Compile a dict with all relevant information  
+    # Compile a dict with all relevant information
     character_dict = {
         "jsonPath" : jsonPath,
         "characterInfo" : {
@@ -257,6 +257,11 @@ def generate_chr_xml(character_dict):
 
     model = ET.SubElement(root, "model")
     file = ET.SubElement(model, "file")
+    
+    
+    #Test
+    
+    
     modelName = str(character_dict["characterInfo"]["race"]).lower() + str(character_dict["characterInfo"]["gender"]).lower() + "_hd.m2"
     file.set("name", "character/" + character_dict["characterInfo"]["race"] + "/" + str(character_dict["characterInfo"]["gender"]).lower() + "/" + modelName)
 
