@@ -76,6 +76,10 @@ wowhead_wmw_slot_convert_dict = {
             'name': 'Chest',
             'wmv': '6'
           },
+    '20': {
+            'name': 'Chest',
+            'wmv': '6'
+          },
     '4': {
             'name': 'Shirt',
             'wmv': '4'
