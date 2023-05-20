@@ -12,6 +12,8 @@
 
 Please ensure you have all dependencies before running!
 
+## Ensure that you change the `exportRoot` in `generate_wmv_character.py` this sets the rootpath for exports!
+
 1. Navigate to the folder in a terminal window.
 2. run `generate_wmv_character.py`
 3. It will ask you for a wowhead URL, here are some examples of acceptable ones:
