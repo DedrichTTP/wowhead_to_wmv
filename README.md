@@ -3,7 +3,7 @@
 
 
 
-![Dressing Room](./dressingRoom.png)
+![Dressing Room](./demo.png)
 
 
 # Usage
