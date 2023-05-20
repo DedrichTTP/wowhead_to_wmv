@@ -200,6 +200,8 @@ def run_script_and_print_output(script_path, url, save_dir):
     if remainder:
         print(remainder.strip())
 
+    return process
+
 
 # Save JSON file from wowhead link
 def get_json_from_url():
@@ -232,6 +234,7 @@ def get_json_from_url():
                 print('Error:', e.stderr.decode('utf-8'))
 
         if(result is None):
+            print("NONE ERRORING!!AHHHHH")
             quit()
 
         # define the name of the file to check for

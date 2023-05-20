@@ -7,6 +7,7 @@ const { exit } = require('process');
 puppeteer.use(AdblockerPlugin());
 const fetchUrl = async(urlInput, saveDir) => {
   try {
+    let viewerOptions
     console.log("Loading URL...")
     const browser = await puppeteer.launch({headless: "new"});
     const page = await browser.newPage();
@@ -32,8 +33,8 @@ const fetchUrl = async(urlInput, saveDir) => {
           await page.waitForFunction(
               'window.lastLogArgs !== undefined'
           );
-          const logArgs = await page.evaluate(() => window.lastLogArgs); 
-          const viewerOptions = logArgs[1]; // The object `t` is the second argument
+          const logArgs = await page.evaluate(() => window.lastLogArgs);
+          viewerOptions = logArgs[1]; // The object `t` is the second argument
         } catch (error) {
           console.error("Error Timeout: The model took too long to load");
         }
@@ -50,6 +51,7 @@ const fetchUrl = async(urlInput, saveDir) => {
         console.log("exiting...")
         exit()
     }
+    return "Success"
 }
 
 const urlInput = process.argv[2];
