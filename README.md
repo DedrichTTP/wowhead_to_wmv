@@ -53,6 +53,7 @@ Installation:
 
 
 
+
 ## Node.js Dependencies
 
 You can install Node.js dependencies using npm, the Node.js package manager. Run the following commands in your terminal:
@@ -62,7 +63,8 @@ You can install Node.js dependencies using npm, the Node.js package manager. Run
 Puppeteer is a Node library which provides a high-level API to control Chrome or Chromium over the DevTools Protocol.
 
 Installation:
-`npm install puppeteer` 
+`npm install puppeteer-extra puppeteer-extra-plugin-adblocker`
+
 
 
 ### axios
