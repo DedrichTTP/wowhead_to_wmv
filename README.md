@@ -21,6 +21,8 @@ Please ensure you have all dependencies before running!
 4. If you use a dressing-room link it will ask you for a character name.
 5. If all goes well, it will generate a .CHR file to import into WMV and copy the location of it to the clipboard!
 
+The script also generates a JSON file for debugging and a URL shortcut to the original URL given.
+
 ---
 
 # Dependencies Installation Guide
