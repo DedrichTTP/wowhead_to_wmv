@@ -6,6 +6,11 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom
 import pyperclip
 
+# Set the base folder for all exports
+##########################################################################################
+exportRoot = "Z:/True Potential Dropbox/Share/Houdini_Projects/_WOWLIB/_WMV_Characters/"
+##########################################################################################
+
 race_dict = {
 1: "human",
 2: "orc",
@@ -196,7 +201,7 @@ def format_json(jsonData, url):
         character_equipment = {str(item[0]): item[1] for item in jsonData["items"]}
         
     # Generate folder path
-    folderPath = "Z:/True Potential Dropbox/Share/Houdini_Projects/_WOWLIB/_WMV_Characters/" + character_race + character_gender + "/" + character_name
+    folderPath = os.path.join(exportRoot, character_race + character_gender, character_name)
 
     # Create folder if it doesn't exist already
     if not os.path.exists(folderPath):
@@ -221,6 +226,17 @@ def format_json(jsonData, url):
     # Save the character_dict
     with open(jsonPath, 'w') as f:
         json.dump(character_dict, f, indent=4)
+    
+    def create_url_shortcut(url, title, filepath):
+        shortcut = f"""
+        [InternetShortcut]
+        URL={url}
+        """
+        with open(filepath, "w") as shortcut_file:
+            shortcut_file.write(shortcut)
+
+    create_url_shortcut(url, character_name, jsonPath.replace(".json",".url") )
+
 
     print(character_name)
     print(character_race + " " + character_gender)  
