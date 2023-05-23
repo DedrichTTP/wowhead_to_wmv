@@ -1,6 +1,11 @@
 # wowhead_to_wmv
  A script to convert Wowhead NPC / Dressing room URLs to WoW Model Viewer .CHR files!
 
+## PLEASE NOTE!!
+
+THIS HAS ONLY BEEN TESTED WITH THE FOLLOWING:
+1) WoW Model Viewer v0.10.0.801
+2) wow 9.2.0.42423
 
 
 ![Dressing Room](./src/demo.png)
@@ -73,11 +78,3 @@ Axios is a promise-based HTTP client for the browser and Node.js.
 
 Installation:
 `npm install axios` 
-
-
-
-## PLEASE NOTE!!
-
-THIS HAS ONLY BEEN TESTED WITH THE FOLLOWING:
-1) WoW Model Viewer v0.10.0.801
-2) wow 9.2.0.42423

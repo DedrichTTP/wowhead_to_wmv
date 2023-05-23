@@ -1,11 +1,25 @@
 import subprocess
 import tempfile
 import os
+import sys
 import json
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom
 import pyperclip
 import settings
+
+saveDir = settings.saveDir.replace("\\","/")
+saveDir = saveDir.replace("\\", "/")
+
+# Ensure it doesn't end with a slash
+if saveDir[-1] == '/':
+    saveDir = saveDir[:-1]
+
+# Check if directory exists
+if not os.path.exists(saveDir):
+    print(f"Directory '{saveDir}' does not exist!")
+    sys.exit()
+print(f"Directory set to: {saveDir}")
 
 race_dict = {
 1: "human",
@@ -169,6 +183,10 @@ wowhead_wmw_slot_convert_dict = {
             'wmv': '9'
           },
     '22': {
+            'name': 'Off-Hand',
+            'wmv': '10'
+          },
+    '14': {
             'name': 'Off-Hand',
             'wmv': '10'
           },
