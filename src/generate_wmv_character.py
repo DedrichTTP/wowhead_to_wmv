@@ -8,12 +8,15 @@ import xml.dom.minidom as minidom
 import pyperclip
 import settings
 
-saveDir = settings.saveDir.replace("\\","/")
-saveDir = saveDir.replace("\\", "/")
+if settings.saveDir is not None:
+    saveDir = settings.saveDir.replace("\\","/")
+    if saveDir[-1] == '/':
+        saveDir = saveDir[:-1]
+else:
+    print("Save dir is empty! Please update settings.py")
+    sys.exit()
+    
 
-# Ensure it doesn't end with a slash
-if saveDir[-1] == '/':
-    saveDir = saveDir[:-1]
 
 # Check if directory exists
 if not os.path.exists(saveDir):
