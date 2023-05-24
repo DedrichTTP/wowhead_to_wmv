@@ -7,9 +7,9 @@ const { exit } = require('process');
 puppeteer.use(AdblockerPlugin());
 const fetchUrl = async(urlInput, saveDir) => {
   try {
-    let viewerOptions
     console.log("Loading URL...")
-    const browser = await puppeteer.launch({headless: "new"});
+    
+    const browser = await puppeteer.launch({headless: "new", args: ['--disable-cache', '--disable-application-cache'],});
     const page = await browser.newPage();
         // Overwrite the `console.log` function on the page
         await page.evaluateOnNewDocument(() => {

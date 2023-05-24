@@ -7,14 +7,15 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom
 import pyperclip
 import settings
+from urllib.parse import urlparse
 
-if settings.saveDir is not None:
+if settings.saveDir is None or settings.saveDir == "":
+    print("Save dir is empty! Please update settings.py")
+    sys.exit()
+else:
     saveDir = settings.saveDir.replace("\\","/")
     if saveDir[-1] == '/':
         saveDir = saveDir[:-1]
-else:
-    print("Save dir is empty! Please update settings.py")
-    sys.exit()
     
 
 
@@ -22,7 +23,7 @@ else:
 if not os.path.exists(saveDir):
     print(f"Directory '{saveDir}' does not exist!")
     sys.exit()
-print(f"Directory set to: {saveDir}")
+print(f"Directory set to: {saveDir}\n")
 
 race_dict = {
 1: "human",
@@ -229,15 +230,18 @@ def get_json_from_url():
 
     # Prompt the user for the URL
     url = input("Please enter a URL: ")
+    parsed_url = urlparse(url)
+
+    if not (parsed_url.scheme and parsed_url.netloc):
+        print("Invalid URL")
+        sys.exit()
 
     #Strip any other stuff from NPC views
-    if ("npc" in url): 
+    if ("npc" in url or "outfit" in url):
         url = url.split("#",1)[0] + "#modelviewer"
-
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
     with tempfile.TemporaryDirectory() as save_dir:
-        print("Gathering data...")
         if("npc" in url):
             try:
                 script_path = os.path.join(dir_path, "wowhead_get_json_npc.js")
@@ -256,7 +260,7 @@ def get_json_from_url():
 
         if(result is None):
             print("NONE ERRORING!!AHHHHH")
-            quit()
+            sys.exit()
 
         # define the name of the file to check for
         filename = "data.json"
@@ -276,42 +280,33 @@ def get_json_from_url():
 
 # Format the JSON file into a common structure
 def format_json(jsonData, url):
-    if("npc" in url):
-        npc = True
-    else:
-        npc = False
-
     # Name
-    if(npc or "outfit" in url):
+    if("npc" in url):
         character_name = url.rsplit("/",1)[1].replace("-", " ").replace("#modelviewer","")
         name_parts = character_name.split()
         character_name = ' '.join(part.capitalize() for part in name_parts)
-    else:
-        character_name = input("Please enter character name: ")
 
-    # Race / sex information
-    if(npc):
         character_gender = gender_dict[jsonData["Gender"]]
         character_race = race_dict[jsonData["Race"]]
-    else:
-        character_gender = gender_dict[jsonData["charCustomization"]["gender"]]
-        character_race = race_dict[jsonData["charCustomization"]["race"]]
 
-    # Customization options
-    if(npc):
         character_customization = jsonData["Creature"]["CreatureCustomizations"]
-    else:
-        character_customization = jsonData["charCustomization"]["options"]
 
-    # Equipment
-    if(npc):
         character_equipment = jsonData["Equipment"]
     else:
+        if "outfit" in url:
+            character_name = url.rsplit("/",1)[1].replace("-", " ").replace("#modelviewer","")
+        else:
+            character_name = input("Please enter character name: ")
+
+        character_gender = gender_dict[jsonData["charCustomization"]["gender"]]
+        character_race = race_dict[jsonData["charCustomization"]["race"]]
+        
+        character_customization = jsonData["charCustomization"]["options"]
+        
         character_equipment = {str(item[0]): item[1] for item in jsonData["items"]}
 
     # Set the export path        
-    exportRoot = settings.saveDir.replace("\\","/")
-    folderPath = os.path.join(exportRoot, character_race + character_gender, character_name)
+    folderPath = os.path.join(saveDir, character_race + character_gender, character_name)
 
     # Create folder if it doesn't exist already
     if not os.path.exists(folderPath):
@@ -333,8 +328,10 @@ def format_json(jsonData, url):
         "rawData" : jsonData
     }
 
-    if(npc):
+    if("npc" in url):
         character_dict["characterInfo"]["type"] = "npc"
+    elif("outfit" in url):
+        character_dict["characterInfo"]["type"] = "outfit"
     else:
         character_dict["characterInfo"]["type"] = "custom"
 
@@ -364,20 +361,23 @@ def format_json(jsonData, url):
         with open(save_path, 'w') as bat_file:
             bat_file.write(bat_script)
 
-    print(character_name)
-    print(character_race + " " + character_gender)
+    print('\n' + character_name)
+    print(character_race + " " + character_gender + '\n')
 
     # Generate screenshot
     dir_path = os.path.dirname(os.path.realpath(__file__))
     script_path = os.path.join(dir_path, "generate_screenshot.js")
     screenshot_path = folderPath + "\\" + character_name + ".jpg"
-    print("Generating screenshot...")
-    if(npc): 
-        url += "#modelviewer"
-    try:
-        subprocess.run(["node", script_path, url, screenshot_path, character_dict["characterInfo"]["type"]], check=True, capture_output=True)
-    except subprocess.CalledProcessError as e:
-        print(e.stderr)
+    if(character_dict["characterInfo"]["type"] == "outfit"):
+        print("Outfits not currently supported for screenshots!")
+    else:
+        print("Generating screenshot...")
+        if("npc" in url):
+            url += "#modelviewer"
+        try:
+            subprocess.run(["node", script_path, url, screenshot_path, character_dict["characterInfo"]["type"]], check=True, capture_output=True)
+        except subprocess.CalledProcessError as e:
+            print(e.stderr)
 
     # Create a bat file for copying the .chr file
     create_bat_file(folderPath + "\\" + "copy CHR to clipboard.bat")

@@ -44,8 +44,6 @@ const fetchUrl = async (urlInput, saveDir) => {
   // Save the JSON data to the specified directory
   const savePath = `${saveDir}/data.json`;
   fs.writeFileSync(savePath, JSON.stringify(jsonData, null, 2));
-
-  console.log(`JSON data has been saved to ${savePath}`);
 };
 
 const urlInput = process.argv[2];
