@@ -1,28 +1,28 @@
-const puppeteer = require('puppeteer');
-const fs = require('fs');
-const axios = require('axios');
+const puppeteer = require("puppeteer");
+const fs = require("fs");
+const axios = require("axios");
 
 // Get the wowhead JSON file for the given URL
 const fetchUrl = async (urlInput, saveDir) => {
-  console.log("Loading URL...")
-  const browser = await puppeteer.launch({headless:"new"});
+  console.log("Loading URL...");
+  const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
 
-  let interceptedUrl = ''; // Variable to store the intercepted URL
+  let interceptedUrl = ""; // Variable to store the intercepted URL
 
   // Begin intercepting requests before navigating to the URL
   await page.setRequestInterception(true);
-  console.log("Waiting for model information... (Max 30s)")
-  page.on('request', interceptedRequest => {
+  console.log("Waiting for model information... (Max 30s)");
+  page.on("request", (interceptedRequest) => {
     if (interceptedUrl) {
-      interceptedRequest.continue();
+      interceptedRequest.abort();
       return;
     }
 
     const url = interceptedRequest.url();
 
     // If the request is for the target JSON file, save it
-    if (url.startsWith('https://wow.zamimg.com/modelviewer/live/meta/npc')) {
+    if (url.startsWith("https://wow.zamimg.com/modelviewer/live/meta/npc")) {
       interceptedUrl = url;
     }
 
@@ -54,5 +54,3 @@ if (!urlInput || !saveDir) {
 } else {
   fetchUrl(urlInput, saveDir);
 }
-
-
