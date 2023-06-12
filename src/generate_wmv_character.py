@@ -10,8 +10,11 @@ from urllib.parse import urlparse
 import shutil
 import tempfile
 
+# Get the current script location
+rel_script_path = os.path.dirname(os.path.realpath(__file__))
+
 # Check if settings.py file exists
-if not os.path.exists('settings.py'):
+if not os.path.exists(os.path.join(rel_script_path, 'settings.py')):
     print("Settings.py file does not exist!")
     sys.exit()
 
@@ -35,8 +38,6 @@ if not os.access(saveDir, os.W_OK):
 
 print(f"Directory set to: {saveDir}\n")
 
-# Get the current script location
-rel_script_path = os.path.dirname(os.path.realpath(__file__))
 
 race_dict = {
     1: "human",
