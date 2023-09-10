@@ -9,6 +9,7 @@ import settings
 from urllib.parse import urlparse
 import shutil
 import tempfile
+import re
 
 # Get the current script location
 rel_script_path = os.path.dirname(os.path.realpath(__file__))
@@ -273,6 +274,18 @@ def format_json(jsonData, url, tmpdir):
 
         character_gender = gender_dict[jsonData["charCustomization"]["gender"]]
         character_race = race_dict[jsonData["charCustomization"]["race"]]
+
+        if character_name == '':
+                print("No name entered, autonaming...")
+                autoName = character_race + character_gender
+                folderTempPath = os.path.join(saveDir, autoName)
+                all_entries = os.listdir(folderTempPath)
+                matching_folders = [entry for entry in all_entries if os.path.isdir(os.path.join(folderTempPath, entry)) and entry.startswith(autoName + "_")]
+                numbers = [int(re.search(r'(\d+)$', folder).group(1)) for folder in matching_folders if re.search(r'(\d+)$', folder)]
+                highest_number = max(numbers, default=0)
+                character_name = f"{autoName}_{highest_number + 1:02}"
+                
+
 
         character_customization = jsonData["charCustomization"]["options"]
 
