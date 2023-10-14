@@ -4,9 +4,12 @@ const axios = require("axios");
 
 // Get the wowhead JSON file for the given URL
 const fetchUrl = async (urlInput, saveDir) => {
-  console.log("Loading URL...");
-  const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    userDataDir: "./temp_profile",
+  });
   const page = await browser.newPage();
+  await page.setCacheEnabled(false);
 
   let interceptedUrl = ""; // Variable to store the intercepted URL
 

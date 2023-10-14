@@ -279,10 +279,16 @@ def format_json(jsonData, url, tmpdir):
                 print("No name entered, autonaming...")
                 autoName = character_race + character_gender
                 folderTempPath = os.path.join(saveDir, autoName)
-                all_entries = os.listdir(folderTempPath)
-                matching_folders = [entry for entry in all_entries if os.path.isdir(os.path.join(folderTempPath, entry)) and entry.startswith(autoName + "_")]
-                numbers = [int(re.search(r'(\d+)$', folder).group(1)) for folder in matching_folders if re.search(r'(\d+)$', folder)]
-                highest_number = max(numbers, default=0)
+                try:
+                    all_entries = os.listdir(folderTempPath)
+                    matching_folders = [entry for entry in all_entries if os.path.isdir(os.path.join(folderTempPath, entry)) and entry.startswith(autoName + "_")]
+                    numbers = [int(re.search(r'(\d+)$', folder).group(1)) for folder in matching_folders if re.search(r'(\d+)$', folder)]
+                    highest_number = max(numbers, default=0)
+                except:
+                    print("no folder exists, creating one")
+                    os.mkdir(folderTempPath)
+                    highest_number = 0
+                    
                 character_name = f"{autoName}_{highest_number + 1:02}"
                 
 
