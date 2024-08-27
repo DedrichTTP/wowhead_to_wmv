@@ -1,1 +1,4 @@
 *.pyc
+src/temp_profile
+src/__pycache__
+temp_profile

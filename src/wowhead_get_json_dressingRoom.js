@@ -34,10 +34,11 @@ const fetchUrl = async (urlInput, saveDir) => {
     // Download png files
     page.on("request", async (interceptedRequest) => {
       const url = interceptedRequest.url();
+      // console.log(url)
       // Check if the request is for a .png file from the target URL
       if (
         url.startsWith("https://wow.zamimg.com/modelviewer/live/textures/") &&
-        path.extname(url) === ".png"
+        path.extname(url) === ".png" || path.extname(url) === ".webp"
       ) {
         // Download and save the .png file
         fs.mkdirSync(`${saveDir}/images`, { recursive: true });
@@ -104,7 +105,7 @@ const fetchUrl = async (urlInput, saveDir) => {
 
 const urlInput = process.argv[2];
 const saveDir = process.argv[3];
-
+console.log(saveDir)
 if (!urlInput || !saveDir) {
   console.error("Please provide a URL and a save directory");
 } else {

@@ -256,9 +256,9 @@ def format_json(jsonData, url, tmpdir):
         )
         name_parts = character_name.split()
         character_name = " ".join(part.capitalize() for part in name_parts)
-
-        character_gender = gender_dict[jsonData["Gender"]]
-        character_race = race_dict[jsonData["Race"]]
+        
+        character_gender = gender_dict[jsonData["Character"]["Gender"]]
+        character_race = race_dict[jsonData["Character"]["Race"]]
 
         character_customization = jsonData["Creature"]["CreatureCustomizations"]
 
